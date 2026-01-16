@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from collections import defaultdict
+from typing import Optional
 
 # --- Observer ABC (Interface) ---
 class Observer(ABC):
@@ -28,7 +29,7 @@ class EventManager:
     objects (Observers) to subscribe to specific event types.
     """
     
-    _instance: 'EventManager' | None = None
+    _instance: Optional['EventManager'] = None
     _initialized: bool = False
 
     def __new__(cls) -> 'EventManager':

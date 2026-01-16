@@ -3,7 +3,7 @@ from agents.base_agent import BaseAgent
 from patterns.agent_factory import AgentFactory
 from patterns.event_manager import EventManager, Observer
 from tools.mock_tools import MockAnalysisTool
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 @AgentFactory.register("analysis")
 class AnalysisAgent(BaseAgent, Observer): # AnalysisAgent is both an Agent and an Observer
@@ -16,8 +16,8 @@ class AnalysisAgent(BaseAgent, Observer): # AnalysisAgent is both an Agent and a
     def __init__(
         self,
         agent_id: str,
-        analysis_tool: MockAnalysisTool = None,
-        event_manager: EventManager = None
+        analysis_tool: Optional[MockAnalysisTool] = None,
+        event_manager: Optional[EventManager] = None
     ):
         super().__init__(agent_id)
         # Initialize the Observer part of the class

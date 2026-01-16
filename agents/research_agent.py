@@ -3,9 +3,9 @@ from agents.base_agent import BaseAgent
 from patterns.agent_factory import AgentFactory
 from patterns.event_manager import EventManager
 from strategies.base_strategy import ResearchStrategy
-from strategies.research_strategies import StandardResearch, DeepDiveResearch, QuickScanResearch
+from strategies.research_strategies import StandardResearch
 from tools.mock_tools import MockWebSearchTool, MockDatabaseTool
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 @AgentFactory.register("research")
 class ResearchAgent(BaseAgent):
@@ -18,10 +18,10 @@ class ResearchAgent(BaseAgent):
     def __init__(
         self,
         agent_id: str,
-        strategy: ResearchStrategy = None, # Default to StandardResearch if not provided
-        web_tool: MockWebSearchTool = None,
-        db_tool: MockDatabaseTool = None,
-        event_manager: EventManager = None
+        strategy: Optional[ResearchStrategy] = None,
+        web_tool: Optional[MockWebSearchTool] = None,
+        db_tool: Optional[MockDatabaseTool] = None,
+        event_manager: Optional[EventManager] = None
     ):
         super().__init__(agent_id)
         self.strategy = strategy if strategy else StandardResearch()
@@ -36,9 +36,11 @@ class ResearchAgent(BaseAgent):
         This demonstrates the agent's 'smartness' in choosing.
         """
         if "deep dive" in topic.lower() or "comprehensive" in topic.lower():
+            from strategies.research_strategies import DeepDiveResearch
             print(f"ResearchAgent {self.agent_id}: Topic suggests DeepDive strategy.")
             return DeepDiveResearch()
         elif "quick" in topic.lower() or "headlines" in topic.lower():
+            from strategies.research_strategies import QuickScanResearch
             print(f"ResearchAgent {self.agent_id}: Topic suggests QuickScan strategy.")
             return QuickScanResearch()
         else:
